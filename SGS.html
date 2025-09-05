@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulateur GO SICAV</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 40px;
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .header-flex {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .logo {
+      max-width: 120px;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+    .reglementaire {
+      font-size: 13px;
+      color: #555;
+      line-height: 1; /* pas d'espace entre les lignes */
+      text-align: center; /* texte centré horizontalement */
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* centré verticalement */
+      white-space: pre-line;
+      flex-grow: 1;
+    }
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0072ce;
+      margin-bottom: 25px;
+      margin-top: 0;
+    }
+    h2 {
+      margin-bottom: 30px;
+      color: #0072ce;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: left;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #0072ce;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    .result {
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header-flex">
+      <img src="b08ef5ea-ec01-4ee7-8f6d-cdc31019babd.png" alt="Logo GO SICAV" class="logo" />
+      <div class="reglementaire">
+        Société d'investissement à capital variable<br/>
+        Régie par la Loi N° 2001-83 du 24 juillet 2001 portant<br/>
+        Promulgation du Code des OPCVM<br/>
+        <strong>RNE 0514183E</strong>
+      </div>
+    </div>
+
+    <h2>Simulateur GO SICAV </h2>
+
+    <label for="capital">Montant investi (TND)</label>
+    <input type="number" id="capital" placeholder="Ex: 10000" min="0" />
+
+    <label for="taux">Taux annuel (%)</label>
+    <input type="number" id="taux" step="0.01" placeholder="Ex: 5" min="0" />
+
+    <label for="duree">Durée (mois)</label>
+    <input type="number" id="duree" placeholder="Ex: 12" min="0" />
+
+    <button onclick="simuler()">Simuler</button>
+
+    <div class="result" id="resultat"></div>
+  </div>
+
+  <script>
+    function simuler() {
+      const capital = parseFloat(document.getElementById("capital").value);
+      const taux = parseFloat(document.getElementById("taux").value) / 100;
+      const dureeMois = parseFloat(document.getElementById("duree").value);
+
+      const resultat = document.getElementById("resultat");
+
+      if (
+        isNaN(capital) || isNaN(taux) || isNaN(dureeMois) ||
+        capital <= 0 || dureeMois <= 0
+      ) {
+        resultat.style.color = "red";
+        resultat.textContent = "Veuillez entrer des valeurs valides.";
+        return;
+      }
+
+      const dureeAnnees = dureeMois / 12;
+      const montantFinal = capital * Math.pow(1 + taux, dureeAnnees);
+      const rendementNet = montantFinal - capital;
+
+      resultat.style.color = "green";
+      resultat.textContent =
+        "Rendement annuel estimé : " + rendementNet.toFixed(2) + " TND";
+    }
+  </script>
+</body>
+</html>
